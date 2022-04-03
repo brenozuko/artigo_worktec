@@ -21,6 +21,7 @@
 \usepackage[brazil]{babel}   
 \usepackage[utf8]{inputenc}  
 
+
 %Inclui () nas citações
 \usepackage{cite}
 \renewcommand\citeleft{(}
@@ -79,7 +80,7 @@ Vê-se, portanto, nas R-CNNs (do inglês, Region-Based Convolutional Neural Netw
 \subsection*{Introdução}
 Ao discutir-se R-CNN's é primeiro importante entender os conceitos que embasam as CNN's (do inglês, {\it Convolutional Neural Networks}), algoritmos de aprendizagem profunda especializados em processamento e classificação de imagens. Segundo \cite{Goodfellow-et-al-2016} redes neurais convolucionais são um tipo especializado de rede neural para processamento de dados organizados topologicamente em grades, que através de operações matemáticas chamadas convoluções, são capazes de extrair características principais das entradas utilizando filtros (kernels), garantindo eficiência e redução de custos computacionais para a classificação.
 
-Diferentemente de outros tipos de dados, imagens possuem a propriedade de {\it invariância de tradução}, ou seja, transmitem a mesma informação sobre o objeto independentemente das variações do contexto. Existem características espaciais, de luz, sombra, perspectiva, cenário, entre outras variáveis, que alteram significantemente a matriz de pixels que constituem. Enquanto para um ser humano distinguir um objeto qualquer no espaço independente da posição, incidência de luz ou cenário em que este se encontra seja uma tarefa trivial, para um computador esta tarefa é árdua e custosa. É necessário que se utilize de técnicas que permitam que as características principais sejam extraídas para análise, evitando imprecisões de análise de dados que não necessariamente contribuem para a classificação do objeto desejado.
+Diferentemente de outros tipos de dados, imagens possuem a propriedade de {\it invariância de tradução}, ou seja, transmitem a mesma informação sobre o objeto independentemente das variações do contexto. Existem características espaciais, de luz, sombra, perspectiva, cenário, entre outras variáveis, que alteram significantemente a matriz de pixels que constituem a imagem em questão. Enquanto para um ser humano distinguir um objeto qualquer no espaço independente da posição, incidência de luz ou cenário em que este se encontra seja uma tarefa trivial, para um computador a mesma é árdua e custosa. É necessário que se utilize de técnicas que permitam que as características principais sejam extraídas para análise, evitando imprecisões de análise de dados que não necessariamente contribuem para a classificação do objeto desejado.
 
 Em geral, uma CNN apenas difere de uma rede neural usual por apresentar camadas destinadas ao processamento das imagens que serão analisadas. Apresentando camadas de convolução, ativação, pooling, para finalmente enviar esses dados para uma rede neural densa que fará a classificação.
 
@@ -94,9 +95,20 @@ Em geral, uma CNN apenas difere de uma rede neural usual por apresentar camadas 
 
 \subsection*{Convolução}
 
-De modo geral a convolução é uma operação matemática realizada sobre duas funções resultando em uma terceira. Pode ser descrita em algoritmos de aprendizagem profunda pela função a seguir:
+Em aplicações de aprendizagem de máquina a convolução é comumente interpretada como uma operação entre a imagem $I$ e o kernel $K$, ambos matrizes multidimensionais que ao serem convolucionadas resultarão em uma nova matriz que chamamos de {\it{feature map}} ou mapa de características. Quando tomamos por exemplo uma convolução de matrizes bidimensionais, conseguimos defini-la pela função a seguir:
 
 $$ S(i,j) = (I * K) (i,j) = \sum_m \sum_n I(m,n) K(i - m, j - n)  $$
+
+Dada a propriedade comutativa da convolução, também podemos escrever:
+
+$$ S(i,j) = (I * K) (i,j) = \sum_m \sum_n I(i - m, j - n) K(m, n)  $$
+
+Em termos gerais, basta que multiplique-se os valores das posições equivalentes do kernel nas coordenadas da imagem analisada, posteriormente soma-se todos os resultados para que se obtenha um valor único na posição definida $(i,j)$ do {\it feature map}.
+
+O kernel é constituído por parâmetros que filtram certas características desejadas do {\it input}, uma rede neural convolucional pode apresentar diversas camadas de convolução para extração de características diferentes. As primeiras camadas em geral extraem características mais gerais, como bordas e contornos, enquanto as camadas posteriores extraem características mais específicas e abstraídas.
+
+
+
 
 \subsection*{Pooling}
 
