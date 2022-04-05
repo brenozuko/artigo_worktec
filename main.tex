@@ -89,11 +89,11 @@ Em geral, uma CNN apenas difere de uma rede neural usual por apresentar camadas 
   \centering
   \includegraphics[width=1\textwidth]{CNN.png}
   \caption{O fluxo básico de uma CNN e suas diversas camadas.}
-  \label{fig:exampleFig1}
+  \label{fig:cnn}
 \end{figure}
 
 
-\subsection*{Convolução}
+\subsection{Convolução}
 
 Em aplicações de aprendizagem de máquina a convolução é comumente interpretada como uma operação entre a imagem $I$ e o kernel $K$, ambos matrizes multidimensionais que ao serem convolucionadas resultarão em uma nova matriz que chamamos de {\it{feature map}} ou mapa de características. Quando tomamos por exemplo uma convolução de matrizes bidimensionais, conseguimos defini-la pela função a seguir:
 
@@ -103,20 +103,33 @@ Dada a propriedade comutativa da convolução, também podemos escrever:
 
 $$ S(i,j) = (I * K) (i,j) = \sum_m \sum_n I(i - m, j - n) K(m, n)  $$
 
+
+A comutação aparece como propriedade da convolução devido a rotação em 180 graus do kernel em relação ao {\it input}, no entanto, não existem muitas razões práticas para se implementar esta propriedade num cenário real. Dessa forma, muitas {\it frameworks} de redes neurais implementam uma função similar chamada {\it correlação cruzada} (ou {\it cross-correlation}), que é em suma a mesma operação sem a rotação do kernel. Definimos a correlação cruzada como:
+
+$$ S(i,j) = (I * K) (i,j) = \sum_m \sum_n I(i + m, j + n) K(m, n)  $$
+
+
 Em termos gerais, basta que multiplique-se os valores das posições equivalentes do kernel nas coordenadas da imagem analisada, posteriormente soma-se todos os resultados para que se obtenha um valor único na posição definida $(i,j)$ do {\it feature map}.
 
 O kernel é constituído por parâmetros que filtram certas características desejadas do {\it input}, uma rede neural convolucional pode apresentar diversas camadas de convolução para extração de características diferentes. As primeiras camadas em geral extraem características mais gerais, como bordas e contornos, enquanto as camadas posteriores extraem características mais específicas e abstraídas.
 
 
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=1\textwidth]{convolution.png}
+  \caption{O processo de convolução sem rotação explicado graficamente. Imagem retirada do livro {\it Deep Learning} \cite{Goodfellow-et-al-2016}. Onde é possível perceber que o output é restringido apenas as posições compreendidas dentro da imagem por todos os parâmetros do kernel. São desenhadas caixas para indicar as saídas referentes a multiplicação e somatório das posições equivalentes do kernel a imagem.}
+  \label{fig:cnn}
+\end{figure}
 
 
-\subsection*{Pooling}
+\subsection{Pooling}
+
 
 
 
 \section{Materiais e métodos}
 
-
+Para o banco de imagens utilizamos o diretório público do TCGA (https://portal.gdc.cancer.gov/projects/TCGA-BRCA)
 
 
 
