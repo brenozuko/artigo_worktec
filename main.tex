@@ -95,7 +95,7 @@ Em geral, uma CNN apenas difere de uma rede neural usual por apresentar camadas 
 
 \subsection{Convolução}
 
-Em aplicações de aprendizagem de máquina a convolução é comumente interpretada como uma operação entre a imagem $I$ e o kernel $K$, ambos matrizes multidimensionais que ao serem convolucionadas resultarão em uma nova matriz que chamamos de {\it{feature map}} ou mapa de características. Quando tomamos por exemplo uma convolução de matrizes bidimensionais, conseguimos defini-la pela função a seguir:
+Em aplicações de aprendizagem de máquina a convolução é comumente interpretada como uma operação entre a imagem $I$ e o kernel $K$, matrizes multidimensionais que ao serem convolucionadas resultarão em uma nova matriz que chamamos de {\it{feature map}} ou mapa de características. Quando tomamos por exemplo uma convolução de matrizes bidimensionais, conseguimos defini-la pela função a seguir:
 
 $$ S(i,j) = (I * K) (i,j) = \sum_m \sum_n I(m,n) K(i - m, j - n)  $$
 
@@ -104,7 +104,7 @@ Dada a propriedade comutativa da convolução, também podemos escrever:
 $$ S(i,j) = (I * K) (i,j) = \sum_m \sum_n I(i - m, j - n) K(m, n)  $$
 
 
-A comutação aparece como propriedade da convolução devido a rotação em 180 graus do kernel em relação ao {\it input}, no entanto, não existem muitas razões práticas para se implementar esta propriedade num cenário real. Dessa forma, muitas {\it frameworks} de redes neurais implementam uma função similar chamada {\it correlação cruzada} (ou {\it cross-correlation}), que é em suma a mesma operação sem a rotação do kernel. Definimos a correlação cruzada como:
+A comutação aparece como propriedade da convolução devido a rotação em 180 graus do kernel em relação ao {\it input}, no entanto, não existem muitas razões práticas para se implementar esta propriedade em uma aplicação real de rede neural. Dessa forma, muitos {\it frameworks} de redes neurais implementam uma função similar chamada {\it correlação cruzada} (ou {\it cross-correlation}), que é em suma a mesma operação sem a rotação do kernel. Sendo definida pela seguinte função:
 
 $$ S(i,j) = (I * K) (i,j) = \sum_m \sum_n I(i + m, j + n) K(m, n)  $$
 
