@@ -67,12 +67,16 @@
 
 O câncer de mama é a mais recorrente neoplasia maligna em mulheres ao redor do mundo. Apenas em 2020 foram realizados 2,3 milhões de diagnósticos e 685.000 mortes foram registradas \cite{who2021}. No Brasil, o cenário é similar: no mesmo ano a ordem de incidência estava prevista para cerca de 600.000 casos \cite{inca2018}. A análise de imagens histológicas está entre os mais utilizados métodos de diagnóstico da atualidade. Porém, existem deficiências associadas ao método provenientes do trabalho humano desenvolvido para realizá-lo. Falhas estas, que podem levar a diagnósticos errados e agravamento do quadro de saúde do paciente em decorrência da falta de tratamento imediato. Mesmo quando bem sucedidos, a análise humana demanda uma grande carga de esforço e tempo que poderiam ser mitigados com auxílio de visão computacional e deep learning.
 
-Segundo \cite{tiezzi2020}, uma série de fatores podem ser descritos como métodos de predição de prognóstico, sendo atualmente utilizados no contexto clínico para determinação de tratamento, em especial para utilização de drogas antineoplásicas. Dentre eles destacam-se critérios clínicos, histológicos e utilização de marcadores tumorais. Abordando o critério histológico, temos o grau de diferenciação tumoral, baseado no sistema de escore de Nottingham (NGS), que, apesar de ser considerado um potente método de predição, recebe críticas em relação à sua baixa reprodutibilidade, provavelmente devido ao seu caráter subjetivo e processamento pré-analítico da amostra. Dessa forma, gera ampla discordância entre histologistas que o aplicam, o que impacta diretamente no prognóstico do paciente e na decisão clínica de administrar ou não a quimioterapia sistêmica.
+Segundo \cite{tiezzi2020}, uma série de fatores podem ser descritos como métodos de predição de prognóstico, sendo atualmente utilizados no contexto clínico para determinação de tratamento, em especial para utilização de drogas antineoplásicas. Dentre eles destacam-se critérios clínicos, histológicos e utilização de marcadores tumorais. Abordando o critério histológico, temos o grau de diferenciação tumoral, baseado no sistema de escore de Nottingham (NGS), que, apesar de ser considerado um potente método de predição, recebe críticas em relação à sua baixa reprodutibilidade, provavelmente devido ao seu caráter subjetivo e processamento pré-analítico da amostra. Dessa forma, gera ampla discordância entre histologistas que o aplicam, o que impacta diretamente no prognóstico do paciente e na decisão clínica de administrar ou não a quimioterapia sistêmica \cite{tiezzi2020}.
 Alternativas de métodos com biologia molecular vêm sendo propostas para inferir com maior acurácia o estágio de agressividade da doença de forma a evitar desvios de diagnóstico. Entretanto, essas são técnicas de alto custo, inviáveis em muitas situações, principalmente em países subdesenvolvidos.
 
 Atualmente, as técnicas de aprendizado de máquina vêm ganhando espaço em diversas áreas e aplicações. Na medicina, já são importantes métodos de auxílio ao diagnóstico de imagens radiológicas \cite{hu2018}. Diversos modelos computacionais têm sido desenvolvidos nos últimos anos utilizando a metodologia deep learning para concretizar sistemas de apoio ao diagnóstico. Grupos de pesquisa ao redor do mundo têm desenvolvido soluções de aprendizado de máquina utilizando técnicas diversas de deep learning, que, apesar de rápidas e geralmente acuradas, apenas oferecem mapas de calor e pontos de atenção, informações insuficientes para interpretação concreta e justificação do diagnóstico oferecido pela máquina, o que não é adequado para sistemas de apoio à decisão médica \cite{li2021}.
 
 Vê-se, portanto, nas R-CNNs (do inglês, Region-Based Convolutional Neural Network) uma solução viável para análise de recortes específicos de tecido com a quantidade de informação e assertividade adequadas para auxílio ao diagnóstico médico. Pois a partir delas é possível segmentar e classificar regiões de interesse com as informações necessárias para evidenciar a presença de tumores malignos com eficiência.
+
+O presente artigo propõe um modelo de classificação de aprendizagem profunda, para a segmentação de áreas de interesse e classificação de imagens histológicas com objetivo de apoiar o diagnóstico de câncer de mama.
+
+
 
 
 \section{Revisão bibliográfica}
@@ -80,11 +84,12 @@ Vê-se, portanto, nas R-CNNs (do inglês, Region-Based Convolutional Neural Netw
 \subsection*{Introdução}
 Ao discutir-se R-CNN's é primeiro importante entender os conceitos que embasam as CNN's (do inglês, {\it Convolutional Neural Networks}), algoritmos de aprendizagem profunda especializados em processamento e classificação de imagens. Segundo \cite{Goodfellow-et-al-2016} redes neurais convolucionais são um tipo especializado de rede neural para processamento de dados organizados topologicamente em grades, que através de operações matemáticas chamadas convoluções, são capazes de extrair características principais das entradas utilizando filtros (kernels), garantindo eficiência e redução de custos computacionais para a classificação.
 
-Diferentemente de outros tipos de dados, imagens possuem a propriedade de {\it invariância de tradução}, ou seja, transmitem a mesma informação sobre o objeto independentemente das variações do contexto. Existem características espaciais, de luz, sombra, perspectiva, cenário, entre outras variáveis, que alteram significantemente a matriz de pixels que constituem a imagem em questão. Enquanto para um ser humano distinguir um objeto qualquer no espaço independente da posição, incidência de luz ou cenário em que este se encontra seja uma tarefa trivial, para um computador a mesma é árdua e custosa. É necessário que se utilize de técnicas que permitam que as características principais sejam extraídas para análise, evitando imprecisões de análise de dados que não necessariamente contribuem para a classificação do objeto desejado.
+Diferentemente de outros tipos de dados, imagens possuem a propriedade de {\it invariância de tradução}, ou seja, transmitem a mesma informação sobre o objeto independentemente das variações do contexto. Existem características espaciais, de luz, sombra, perspectiva, cenário, entre outras variáveis, que alteram significantemente a matriz de pixels que constituem a imagem em questão. Enquanto para um ser humano distinguir um objeto qualquer no espaço independente da posição, incidência de luz ou cenário em que este se encontra seja uma tarefa trivial, para um computador a mesma tem um custo elevado de execução. Sendo assim, é necessário que se utilize de técnicas que permitam a extração de características mais objetivas e com dados relevantes para a análise, evitando imprecisões que não contribuem para a classificação do objeto desejado.
 
-Em geral, uma CNN apenas difere de uma rede neural usual por apresentar camadas destinadas ao processamento das imagens que serão analisadas. Apresentando camadas de convolução, ativação, pooling, para finalmente enviar esses dados para uma rede neural densa que fará a classificação.
+Em geral, uma CNN apenas difere de uma rede neural densa totalmente conectada por apresentar camadas destinadas ao processamento das imagens que serão analisadas. Apresentando camadas de convolução, ativação, pooling, tal como apresentado na Figura \ref{fig:cnn} para finalmente enviar esses dados para uma rede neural densa que fará a classificação.
 
 
+% Revisar caption da figura
 \begin{figure}[ht]
   \centering
   \includegraphics[width=1\textwidth]{CNN.png}
@@ -93,43 +98,48 @@ Em geral, uma CNN apenas difere de uma rede neural usual por apresentar camadas 
 \end{figure}
 
 
+
 \subsection{Convolução}
 
-Em aplicações de aprendizagem de máquina a convolução é comumente interpretada como uma operação entre a imagem $I$ e o kernel $K$, matrizes multidimensionais que ao serem convolucionadas resultarão em uma nova matriz que chamamos de {\it{feature map}} ou mapa de características. Quando tomamos por exemplo uma convolução de matrizes bidimensionais, conseguimos defini-la pela função a seguir:
-
-$$ S(i,j) = (I * K) (i,j) = \sum_m \sum_n I(m,n) K(i - m, j - n)  $$
-
-Dada a propriedade comutativa da convolução, também podemos escrever:
-
-$$ S(i,j) = (I * K) (i,j) = \sum_m \sum_n I(i - m, j - n) K(m, n)  $$
-
-
-A comutação aparece como propriedade da convolução devido a rotação em 180 graus do kernel em relação ao {\it input}, no entanto, não existem muitas razões práticas para se implementar esta propriedade em uma aplicação real de rede neural. Dessa forma, muitos {\it frameworks} de redes neurais implementam uma função similar chamada {\it correlação cruzada} (ou {\it cross-correlation}), que é em suma a mesma operação sem a rotação do kernel. Sendo definida pela seguinte função:
+Em aplicações de aprendizagem de máquina a convolução é comumente interpretada como uma operação entre a imagem $I$ e o kernel $K$, matrizes multidimensionais que ao serem convolucionadas resultarão em uma nova matriz que chamamos de {\it{feature map}} ou mapa de características. Quando tomamos por exemplo uma convolução de matrizes bidimensionais temos de levar em consideração certas propriedades matemáticas que não traduzem bem para cenários práticos de aprendizagem profunda. Dessa forma, muitos {\it frameworks} de redes neurais implementam uma função similar chamada {\it correlação cruzada} (ou {\it cross-correlation}), que é em suma a mesma operação sem a rotação do kernel. Sendo definida pela seguinte função:
 
 $$ S(i,j) = (I * K) (i,j) = \sum_m \sum_n I(i + m, j + n) K(m, n)  $$
 
 
 Em termos gerais, basta que multiplique-se os valores das posições equivalentes do kernel nas coordenadas da imagem analisada, posteriormente soma-se todos os resultados para que se obtenha um valor único na posição definida $(i,j)$ do {\it feature map}.
 
-O kernel é constituído por parâmetros que filtram certas características desejadas do {\it input}, uma rede neural convolucional pode apresentar diversas camadas de convolução para extração de características diferentes. As primeiras camadas em geral extraem características mais gerais, como bordas e contornos, enquanto as camadas posteriores extraem características mais específicas e abstraídas.
+O kernel é constituído por parâmetros que filtram certas características desejadas do {\it input}, uma rede neural convolucional pode apresentar diversas camadas de convolução para extração de características diferentes. As primeiras camadas em geral extraem características mais gerais, como bordas e contornos, enquanto as camadas posteriores extraem características mais específicas e abstratas.
 
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=1\textwidth]{convolution.png}
   \caption{O processo de convolução sem rotação explicado graficamente. Imagem retirada do livro {\it Deep Learning} \cite{Goodfellow-et-al-2016}. Onde é possível perceber que o output é restringido apenas as posições compreendidas dentro da imagem por todos os parâmetros do kernel. São desenhadas caixas para indicar as saídas referentes a multiplicação e somatório das posições equivalentes do kernel a imagem.}
-  \label{fig:cnn}
+  \label{fig:convolution-fig}
 \end{figure}
 
 
 \subsection{Pooling}
 
+% Suavizar o feature map
+
+% Algumas informações podem estar sobressaltadas e o algoritmo de pooling tenta suavizá-las.
+
+% O objetivo de extrair características não é ressaltar uma localidade, é ressaltar uma generalidade.
+
+% Evitar chamar atenção em demasia do algoritmo de otimização.
+
+% Pooling é como borrar o feature map
 
 
 
 \section{Materiais e métodos}
 
 Para o banco de imagens utilizamos o diretório público do TCGA (https://portal.gdc.cancer.gov/projects/TCGA-BRCA)
+
+% Banco de dados
+% Modelo de R-CNN
+% Implementação
 
 
 
