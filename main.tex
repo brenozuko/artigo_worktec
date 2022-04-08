@@ -83,7 +83,7 @@ O presente artigo propõe um modelo de classificação de aprendizagem profunda,
 \subsection*{Introdução}
 Ao discutir-se R-CNN's é primeiro importante entender os conceitos que embasam as CNN's (do inglês, {\it Convolutional Neural Networks}), algoritmos de aprendizagem profunda especializados em processamento e classificação de imagens. Segundo \cite{Goodfellow-et-al-2016} redes neurais convolucionais são um tipo especializado de rede neural para processamento de dados organizados topologicamente em grades, que através de operações matemáticas chamadas convoluções, são capazes de extrair características principais das entradas utilizando filtros (kernels), garantindo eficiência e redução de custos computacionais para a classificação.
 
-Diferentemente de outros tipos de dados, imagens possuem a propriedade de {\it invariância de tradução}, ou seja, transmitem a mesma informação sobre o objeto independentemente das variações do contexto. No entanto, existem características espaciais, de luz, sombra, perspectiva, cenário, entre outras variáveis, que alteram significantemente a matriz de pixels que constituem a imagem do objeto de estudo. Enquanto para um ser humano distinguir um objeto qualquer no espaço independente da posição, incidência de luz ou cenário em que este se encontra seja uma tarefa trivial, para um computador esta tem um custo elevado de execução. Sendo assim, é necessário que se utilize de técnicas que permitam a extração de características mais objetivas e com dados relevantes para a análise, evitando imprecisões que não contribuem para a classificação do objeto desejado.
+Diferentemente de outros tipos de dados, imagens possuem a propriedade de {\it invariância de tradução} \cite{Aggarwal18}, ou seja, transmitem a mesma informação sobre o objeto independentemente das variações do contexto. No entanto, existem características espaciais, de luz, sombra, perspectiva, cenário, entre outras variáveis, que alteram significantemente a matriz de pixels que constituem a imagem do objeto de estudo. Enquanto para um ser humano distinguir um objeto qualquer no espaço independente da posição, incidência de luz ou cenário em que este se encontra seja uma tarefa trivial, para um computador esta tem um custo elevado de execução. Sendo assim, é necessário que se utilize de técnicas que permitam a extração de características mais objetivas e com dados relevantes para a análise, evitando imprecisões que não contribuem para a classificação do objeto desejado.
 
 Em geral, uma CNN apenas difere de uma rede neural densa totalmente conectada por apresentar camadas destinadas ao processamento das imagens que serão analisadas. Apresentando camadas de convolução, ativação, pooling, tal como apresentado na Figura \ref{fig:cnn} para finalmente enviar esses dados para uma rede neural densa que fará a classificação.
 
@@ -119,6 +119,15 @@ O kernel é constituído por parâmetros que filtram certas características des
 
 
 \subsection{Pooling}
+
+Apesar da efetividade de destaque de características provenientes da técnica de convolução, o {\it feature map} ainda destaca demasiadamente informações sobre localização espacial das {\it features} na saída, gerando uma variável extra a ser analisada (característica e posição) que prejudica a invariância de tradução da imagem. É mais relevante em geral para o modelo, compreender que a característica desejada está presente no objeto, do que sua posição especificamente \cite{Goodfellow-et-al-2016}. Portanto, em um fluxo comum de CNN é necessário que após o processo de convolução e aplicação da função de ativação (transformação não linear realizada ao longo do sinal de entrada), seja realizada uma operação que permita suavizar a saída classificada. A esta técnica damos o nome de {\it pooling}.
+
+A camada de {\it pooling} substitui a saída do {\it feature map} por uma estatística aproximada das informações desejadas para a rede neural densa, garantindo uma aproximação de invariância que permite melhores resultados para as operações realizadas nesse conjunto de dados \cite{Goodfellow-et-al-2016}.
+
+Existem diversas funções de {\it pooling}, as duas mais comuns são: {\it Average Pooling} e {\it Max Pooling}. Seus respectivos algoritmos tem propósitos distintos, entretanto ambos cumprem o papel de filtrar o {\it feature map} de tal forma a reduzir a dimensionalidade da imagem e destacar características principais a serem processadas pela rede neural densa. Gerando um novo mapa de características que chamamos de {\it pooled feature map}.
+
+
+
 
 % Suavizar o feature map
 
