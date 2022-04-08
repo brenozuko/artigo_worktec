@@ -39,8 +39,7 @@
 
 \address{Faculdade de Tecnologia de Ribeirão Preto - (FATEC)\\
   Ribeirão Preto, SP -- Brasil
-  \email{breno.marques@fatec.sp.gov.br, lucas.figueira@fatec.sp.gov.br}
-}
+  \email{breno.marques@fatec.sp.gov.br, lucas.figueira@fatec.sp.gov.br}}
 
 \begin{document}
 
@@ -101,7 +100,7 @@ Em geral, uma CNN apenas difere de uma rede neural densa totalmente conectada po
 
 \subsection{Convolução}
 
-Em aplicações de aprendizagem de máquina a convolução é comumente interpretada como uma operação entre a imagem $I$ e o kernel $K$, matrizes multidimensionais que ao serem convolucionadas resultarão em uma nova matriz que chamamos de {\it{feature map}} ou mapa de características. Quando tomamos por exemplo uma convolução de matrizes bidimensionais temos de levar em consideração certas propriedades matemáticas que não traduzem bem para cenários práticos de aprendizagem profunda. Dessa forma, muitos {\it frameworks} de redes neurais implementam uma função similar chamada {\it correlação cruzada} (ou {\it cross-correlation}), que é em suma a mesma operação sem a rotação do kernel. Sendo definida pela seguinte função:
+Em aplicações de aprendizagem de máquina a convolução é comumente interpretada como uma operação entre a imagem $I$ e o kernel $K$, matrizes multidimensionais que ao serem convolucionadas resultarão em uma nova matriz que chamamos de {\it{feature map}} ou mapa de características. Quando tomamos por exemplo uma convolução de matrizes bidimensionais temos de levar em consideração certas propriedades matemáticas que não se traduzem bem para cenários práticos de aprendizagem profunda. Dessa forma, muitos {\it frameworks} de redes neurais implementam uma função similar chamada {\it correlação cruzada} (ou {\it cross-correlation}), que é em suma a mesma operação sem a rotação do kernel. Sendo definida pela seguinte função:
 
 $$ S(i,j) = (I * K) (i,j) = \sum_m \sum_n I(i + m, j + n) K(m, n)  $$
 
