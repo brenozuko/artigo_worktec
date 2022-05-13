@@ -1,3 +1,4 @@
+.pdf
 *.log
 main.aux
 main.bbl
@@ -5,4 +6,3 @@ main.blg
 main.fdb_latexmk
 main.fls
 main.synctex.gz
-.pdf
