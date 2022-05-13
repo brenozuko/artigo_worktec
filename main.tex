@@ -77,13 +77,13 @@ O presente artigo propõe um modelo de classificação de aprendizagem profunda,
 
 
 
-
-\section{Revisão bibliográfica}
+\section{Materiais e métodos}
+% \section{Revisão bibliográfica}
 
 \subsection*{Introdução}
 Ao discutir-se R-CNN's é primeiro importante entender os conceitos que embasam as CNN's (do inglês, {\it Convolutional Neural Networks}), algoritmos de aprendizagem profunda especializados em processamento e classificação de imagens. Segundo \cite{Goodfellow-et-al-2016} redes neurais convolucionais são um tipo especializado de rede neural para processamento de dados organizados topologicamente em grades, que através de operações matemáticas chamadas convoluções, são capazes de extrair características principais das entradas utilizando filtros (kernels), garantindo eficiência e redução de custos computacionais para a classificação.
 
-Diferentemente de outros tipos de dados, imagens possuem a propriedade de {\it invariância de tradução}, ou seja, transmitem a mesma informação sobre o objeto independentemente das variações do contexto. Existem características espaciais, de luz, sombra, perspectiva, cenário, entre outras variáveis, que alteram significantemente a matriz de pixels que constituem a imagem em questão. Enquanto para um ser humano distinguir um objeto qualquer no espaço independente da posição, incidência de luz ou cenário em que este se encontra seja uma tarefa trivial, para um computador a mesma tem um custo elevado de execução. Sendo assim, é necessário que se utilize de técnicas que permitam a extração de características mais objetivas e com dados relevantes para a análise, evitando imprecisões que não contribuem para a classificação do objeto desejado.
+Diferentemente de outros tipos de dados, imagens possuem a propriedade de {\it invariância de tradução} \cite{Aggarwal18}, ou seja, transmitem a mesma informação sobre o objeto independentemente das variações do contexto. No entanto, existem características espaciais, de luz, sombra, perspectiva, cenário, entre outras variáveis, que alteram significantemente a matriz de pixels que constituem a imagem do objeto de estudo. Enquanto para um ser humano distinguir um objeto qualquer no espaço independente da posição, incidência de luz ou cenário em que este se encontra seja uma tarefa trivial, para um computador esta tem um custo elevado de execução. Sendo assim, é necessário que se utilize de técnicas que permitam a extração de características mais objetivas e com dados relevantes para a análise, evitando imprecisões que não contribuem para a classificação do objeto desejado.
 
 Em geral, uma CNN apenas difere de uma rede neural densa totalmente conectada por apresentar camadas destinadas ao processamento das imagens que serão analisadas. Apresentando camadas de convolução, ativação, pooling, tal como apresentado na Figura \ref{fig:cnn} para finalmente enviar esses dados para uma rede neural densa que fará a classificação.
 
@@ -113,12 +113,27 @@ O kernel é constituído por parâmetros que filtram certas características des
 \begin{figure}[ht]
   \centering
   \includegraphics[width=1\textwidth]{convolution.png}
-  \caption{O processo de convolução sem rotação explicado graficamente. Imagem retirada do livro {\it Deep Learning} \cite{Goodfellow-et-al-2016}. Onde é possível perceber que o output é restringido apenas as posições compreendidas dentro da imagem por todos os parâmetros do kernel. São desenhadas caixas para indicar as saídas referentes a multiplicação e somatório das posições equivalentes do kernel a imagem.}
+  \caption{O processo de convolução sem rotação explicado graficamente. Imagem retirada do livro {\it Deep Learning} \cite{Goodfellow-et-al-2016}. Onde é possível perceber que o output é restringido apenas as posições compreendidas dentro da imagem por todos os parâmetros do kernel. São desenhadas caixas para indicar as saídas referentes a multiplicação e somatório das posições equivalentes do kernel à imagem.}
   \label{fig:convolution}
 \end{figure}
 
 
 \subsection{Pooling}
+
+Apesar da efetividade de destaque de características provenientes da técnica de convolução, o {\it feature map} ainda destaca demasiadamente informações sobre localização espacial das {\it features} na saída, gerando uma variável extra a ser analisada (característica e posição) que prejudica a invariância de tradução da imagem. É mais relevante em geral para o modelo, compreender que a característica desejada está presente no objeto, do que sua posição especificamente \cite{Goodfellow-et-al-2016}. Portanto, em um fluxo comum de CNN é necessário que após o processo de convolução e aplicação da função de ativação (transformação não linear realizada ao longo do sinal de entrada), seja realizada uma operação que permita suavizar a saída classificada. A esta técnica damos o nome de {\it pooling}.
+
+A camada de {\it pooling} substitui a saída do {\it feature map} por uma estatística aproximada das informações desejadas para a rede neural densa, garantindo uma aproximação de invariância que permite melhores resultados para as operações realizadas nesse conjunto de dados \cite{Goodfellow-et-al-2016}.
+
+Existem diversas funções de {\it pooling}, as duas mais comuns são: {\it Average Pooling} e {\it Max Pooling}. Seus respectivos algoritmos tem propósitos distintos, entretanto ambos cumprem o papel de filtrar o {\it feature map} de tal forma a reduzir a dimensionalidade da imagem e destacar características principais a serem processadas pela rede neural densa. Gerando um novo mapa de características que chamamos de {\it pooled feature map}.
+
+
+\section{Resultados}
+
+Após a seleção das imagens em regiões de interesse (ROI - do inglês, {\it Region of Interest}), observamos que uma proporção substancial das sub imagens (cerca de 30\%) não apresentam amostragem de células tumorais suficientes ou representam áreas de tecido normal. As sub imagens geradas compõem uma base na ordem de milhões de imagens. Dessa forma, antes da realização do treinamento final é necessário que se classifique de acordo com sua qualidade. Para tal, estamos desenvolvendo um modelo de classificação binário (imagem com boa qualidade x ruim) utilizando uma CNN aplicada após uma filtragem de imagens classificadas de forma não supervisionada baseada no algoritmo K-means. Utilizando o K-means, cada pixel da imagem recebe uma classificação conforme a sua similaridade com os outros pixels. Sendo assim, os pixels em tonalidade azul da hematoxilina ficam todos com a mesma classificação. Com isto, é possível criar uma máscara e converter todos os outros pixels para branco. Baseado na proporção de pixels não brancos, podemos inferir qual é a representatividade de células neoplásicas em cada imagem.
+
+Seguindo a metodologia de normalização de imagens em H\&E, é possível separar cada um dos canais H e E. Com esta abordagem, nós pudemos extrair as características da imagem mais representativas do núcleo celular (o canal H) após a subtração da coloração da eosina. O algoritmo de clusterização não supervisionado K-means foi aplicado a imagens originais, imagens normalizadas e na imagem com subtração da eosina (canal H). Este algoritmo realiza a clusterização de cada pixel baseado em similaridade e no número de clusters (Ks).
+
+Dados os resultados parciais é possível afirmar que a partir da utilização de métodos de normalização de imagem e segmentação de ROI, é possível filtrar com eficiência imagens com baixo índice de células tumorais. A utilização de redes neurais para classificação de histopatologias é viável, desde que se tenha o devido cuidado para selecionar as imagens de forma adequada. Não obstante, sistemas mais robustos obteriam resultados melhores o que ainda é um impeditivo para utilização em larga escala destes modelos para apoio a decisão médica em campo.
 
 % Suavizar o feature map
 
@@ -132,9 +147,9 @@ O kernel é constituído por parâmetros que filtram certas características des
 
 
 
-\section{Materiais e métodos}
+% \section{Materiais e métodos}
 
-Para o banco de imagens utilizamos o diretório público do TCGA (https://portal.gdc.cancer.gov/projects/TCGA-BRCA)
+% Para o banco de imagens utilizamos o diretório público do TCGA (https://portal.gdc.cancer.gov/projects/TCGA-BRCA)
 
 % Banco de dados
 % Modelo de R-CNN
