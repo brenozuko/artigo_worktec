@@ -72,7 +72,7 @@ Atualmente, as técnicas de aprendizado de máquina vêm ganhando espaço em div
 
 Vê-se, portanto, nas CNNs (do inglês, Convolutional Neural Network) uma solução viável para análise de recortes específicos de tecido com a quantidade de informação e assertividade adequadas para auxílio ao diagnóstico médico. Pois a partir delas é possível segmentar e classificar regiões de interesse com as informações necessárias para evidenciar a presença de tumores malignos com eficiência.
 
-O presente artigo propõe um modelo de classificação de aprendizagem profunda, para a segmentação de áreas de interesse e classificação de imagens histológicas com objetivo de apoiar o diagnóstico de câncer de mama com o auxílio do sistema de classificação YOLO  \cite{Redmon2015}, além de comparar a eficiência do modelo em relação a um patologista treinado para inferir a viabilidade de implantar em campo esse tipo de técnica.
+O presente artigo propõe um modelo  de aprendizagem profunda para a segmentação de áreas de interesse e posterior classificação de imagens histológicas visando apoiar o diagnóstico de câncer de mama.
 
 
 \section{Revisão bibliográfica}
@@ -128,8 +128,8 @@ Existem diversas funções de {\it pooling}, as duas mais comuns são: {\it Aver
 
 \section{Métodos}
 
-O processo de desenvolvimento do modelo iniciou-se com a seleção de imagens de cortes histopatológicos do banco TCGA (\url{https://portal.gdc.cancer.gov/projects/TCGA-BRCA}), {\it dataset} este que possui informações clínicas e
-histopatológicas de 1098 pacientes com câncer de mama e suas respectivas imagens histológica. Posteriormente, como é requisitado pelo YOLO \cite{Redmon2015} em sua arquitetura, os tumores presentes em cada imagem que participaria do sub-conjunto de treino foram anotados para que sejam reconhecidos pelo modelo.
+O processo de desenvolvimento do modelo iniciou-se com a seleção de imagens de cortes histopatológicos do banco TCGA (https://portal.gdc.cancer.gov/projects/TCGA-BRCA), {\it dataset} este que possui informações clínicas e
+histopatológicas de 1098 pacientes com câncer de mama e suas respectivas imagens histológica \cite{tiezzi2020}. Posteriormente, como é requisitado pelo YOLO \cite{Redmon2015} em sua arquitetura, os tumores presentes em cada imagem que participaria do sub-conjunto de treino foram anotados para que sejam reconhecidos pelo modelo.
 
 
 % Suavizar o feature map
