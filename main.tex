@@ -78,7 +78,7 @@ O presente artigo propõe um modelo  de aprendizagem profunda para a segmentaç�
 \section{Revisão bibliográfica}
 
 \subsection{Introdução}
-Para justificar a escolha do modelo YOLO ({\it You Only Look Once}) é primeiro importante entender os conceitos que embasam as CNN's (do inglês, {\it Convolutional Neural Networks}), algoritmos de aprendizagem profunda especializados em processamento e classificação de imagens. Segundo \cite{Goodfellow-et-al-2016} redes neurais convolucionais são um tipo especializado de rede neural para processamento de dados organizados topologicamente em grades, que através de operações matemáticas chamadas convoluções, são capazes de extrair características principais das entradas utilizando filtros (kernels), garantindo eficiência e redução de custos computacionais para a classificação.
+Para justificar sua utilização é primeiro importante entender os conceitos que embasam as CNN's (do inglês, {\it Convolutional Neural Networks}), algoritmos de aprendizagem profunda especializados em processamento e classificação de imagens. Segundo \cite{Goodfellow-et-al-2016} redes neurais convolucionais são um tipo especializado de rede neural para processamento de dados organizados topologicamente em grades, que através de operações matemáticas chamadas convoluções, são capazes de extrair características principais das entradas utilizando filtros (kernels), garantindo eficiência e redução de custos computacionais para a classificação.
 
 Diferentemente de outros tipos de dados, imagens possuem a propriedade de {\it invariância de tradução} \cite{Aggarwal18}, ou seja, transmitem a mesma informação sobre o objeto independentemente das variações do contexto. No entanto, existem características espaciais, de luz, sombra, perspectiva, cenário, entre outras variáveis, que alteram significantemente a matriz de pixels que constituem a imagem do objeto de estudo. Enquanto para um ser humano distinguir um objeto qualquer no espaço independente da posição, incidência de luz ou cenário em que este se encontra seja uma tarefa trivial, para um computador esta tem um custo elevado de execução. Sendo assim, é necessário que se utilize de técnicas que permitam a extração de características mais objetivas e com dados relevantes para a análise, evitando imprecisões que não contribuem para a classificação do objeto desejado.
 
@@ -110,7 +110,7 @@ O kernel é constituído por parâmetros que filtram certas características des
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=1\textwidth]{images/convolution.png}
+  \includegraphics[width=0.8\textwidth]{images/convolution.png}
   \caption{O processo de convolução sem rotação explicado graficamente. Imagem retirada do livro {\it Deep Learning} \cite{Goodfellow-et-al-2016}. Onde é possível perceber que o output é restringido apenas as posições compreendidas dentro da imagem por todos os parâmetros do kernel. São desenhadas caixas para indicar as saídas referentes a multiplicação e somatório das posições equivalentes do kernel à imagem.}
   \label{fig:convolution}
 \end{figure}
@@ -126,13 +126,12 @@ Existem diversas funções de {\it pooling}, as duas mais comuns são: {\it Aver
 
 \subsection{Detecção unificada de objetos em tempo real com YOLO}
 
-Olhar para uma imagem de forma holística e instantaneamente identificar objetos, além de suas interações com o ambiente de forma rápida e acurada é algo que o sistema visual humano faz com certa facilidade. Com a proposta de ser um classificador de objetos de alta performance, YOLO propõe uma abordagem diferente de outros modelos prévios a ele entregando velocidade e acurácia com custo computacional reduzido, além de uma arquitetura escalável.
+Com a proposta de ser um classificador de objetos de alta performance, YOLO propõe uma abordagem diferente de outros modelos prévios a ele entregando velocidade e acurácia com custo computacional reduzido, além de uma arquitetura escalável.
 
-Alternativas conhecidas de classificadores pro
+Segundo \citeonline{Redmon2015} alternativas conhecidas de classificadores como R-CNN's ({\it Regions with Convolutional Neural Networks }) utilizam métodos para primeiro gerar potenciais caixas delimitadoras em uma imagem e posteriormente rodar um classificador para as áreas segmentadas. Após as classificações, é aplicado ainda pós-processamento para refinar as delimitações, eliminar duplicações e possíveis imprecisões. Esse tipo de modelo, devido a sua complexidade, torna-se lento e de difícil otimização pois cada componente individual deve ser treinado separadamente.
 
 
 \section{Métodos}
-
 O processo de desenvolvimento do modelo iniciou-se com a seleção de imagens de cortes histopatológicos do banco TCGA (https://portal.gdc.cancer.gov/projects/TCGA-BRCA), {\it dataset} este que possui informações clínicas e
 histopatológicas de 1098 pacientes com câncer de mama e suas respectivas imagens histológica \cite{tiezzi2020}.
 
