@@ -131,14 +131,14 @@ Segundo \citeonline{Redmon2015} alternativas conhecidas de classificadores como 
 
 Com a proposta de ser um classificador de objetos de alta performance, YOLO propõe uma abordagem diferente das convencionais entregando velocidade e acurácia com custo computacional reduzido, além de uma arquitetura escalável devido a sua simplicidade. O modelo YOLO reformula o problema de detecção de objetos para um problema de regressão única, utilizando apenas uma rede neural para criar {\it bounding boxes} e indicar as probabilidades dos objetos estarem presentes nessas imagens \cite{Redmon2015}.
 
-Para tal, o sistema divide a imagem de entrada em um grid $S x S$. Caso o centro da imagem caia em uma determinada célula, esta fica responsável por fazer a detecção daquele objeto, por sua vez esta prevê $B$ caixas delimitadoras e valores de confiança para cada uma delas. Estes responsáveis por explicitar o quão confiante o modelo está de que o objeto predito está naquela {\it bounding box}.
+Para tal, o sistema divide a imagem de entrada em um grid $S x S$. Caso o centro da imagem caia em uma determinada célula, esta fica responsável por fazer a detecção daquele objeto, por sua vez esta prevê $B$ caixas delimitadoras e valores de confiança para cada uma delas formalmente definidos por $Pr(Object) * IOU^{truth}_{pred}$.
 
 
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.7\textwidth]{images/yolo.png}
-  \caption{Imagem retirada do artigo de \citeonline{Redmon2015}. Onde é possível ver com clareza o processo de separação da imagem em pequenas células em um grid $S x S$, a plotagem das caixas delimitadoras e a detecção final.}
+  \caption{Imagem retirada do artigo de \citeonline{Redmon2015}. Onde é possível ver com clareza o processo de separação da imagem em pequenas células em um grid $S x S$, a plotagem de $B$ caixas delimitadoras e a detecção final .}
   \label{fig:yolo}
 \end{figure}
 
