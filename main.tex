@@ -133,9 +133,11 @@ Com a proposta de ser um classificador de objetos de alta performance, YOLO prop
 
 Para tal, o sistema divide a imagem de entrada em um grid $S x S$. Caso o centro da imagem caia em uma determinada célula, esta fica responsável por fazer a detecção daquele objeto, por sua vez esta prevê $B$ caixas delimitadoras e valores de confiança para cada uma delas formalmente definidos por $Pr(Object) * IOU^{truth}_{pred}$. Se não existir objetos na respectiva célula o fator de confiança é determinado como zero, do contrário a confiança de predição é representada pelo IOU ({\it Intersection Over Union}) da {\it bounding box} predita em relação a qualquer caixa delimitadora tomada como verdade absoluta \cite{Redmon2015}.
 
-Ademais, cada {\it bounding box} é composta por 5 valores: $x, y, w, h$ e confiança \cite{Redmon2015}. Onde $x, y$ são as coordenadas do centro da caixa delimitadora, $w, h$ são a largura e altura relativas a imagem completa. Vale ressaltar que são preditas também $C$ potenciais classes por célula e sua probabilidade é dada por $Pr(Classe_i | Objeto)$, apenas se prevê um conjunto probabilidades de classe por célula do grid, independente de quantas {\it bounding boxes} foram demarcadas no processo \cite{Redmon2015}.
+Ademais, cada {\it bounding box} é composta por 5 valores: $x, y, w, h$ e confiança \cite{Redmon2015}. Onde $x, y$ são as coordenadas do centro da caixa delimitadora, $w, h$ são a largura e altura relativas a imagem completa. Vale ressaltar que são preditas também $C$ potenciais classes condicionais por célula e sua probabilidade é dada por $Pr(Class_i | Object)$ e apenas se prevê um único conjunto probabilidades de classe por célula do grid, independente de quantas {\it bounding boxes} foram demarcadas no processo \cite{Redmon2015}.
 
+Durante o momento de testes são multiplicados as classes condicionais e as confianças individuais de cada caixa predita seguindo a equação:
 
+$$ Pr(Class_i|Object) * Pr(Object) * IOU^{truth}_{pred} = Pr(Class_i) * IOU^{truth}_{pred}$$
 
 \begin{figure}[ht]
   \centering
