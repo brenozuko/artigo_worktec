@@ -135,14 +135,17 @@ Para tal, o sistema divide a imagem de entrada em um grid $S x S$. Caso o centro
 
 Ademais, cada {\it bounding box} é composta por 5 valores: $x, y, w, h$ e confiança \cite{Redmon2015}. Onde $x, y$ são as coordenadas do centro da caixa delimitadora, $w, h$ são a largura e altura relativas a imagem completa. Vale ressaltar que são preditas também $C$ potenciais classes condicionais por célula e sua probabilidade é dada por $Pr(Class_i | Object)$ e apenas se prevê um único conjunto probabilidades de classe por célula do grid, independente de quantas {\it bounding boxes} foram demarcadas no processo \cite{Redmon2015}.
 
-Durante o momento de testes são multiplicados as classes condicionais e as confianças individuais de cada caixa predita seguindo a expressão:
+Durante o momento de testes são multiplicados as classes condicionais e as confianças individuais de cada caixa predita como visto em (\ref{testing_expression}) o que dá os fatores de confiança específicos de cada {\it bounding box} e por sua vez o fluxo pode ser compreendido na totalidade a partir da Figura \ref{fig:yolo}.
 
-$$ Pr(Class_i|Object) * Pr(Object) * IOU^{truth}_{pred} = Pr(Class_i) * IOU^{truth}_{pred}$$
+\begin{equation}
+  \label{testing_expression}
+  Pr(Class_i|Object) * Pr(Object) * IOU^{truth}_{pred} = Pr(Class_i) * IOU^{truth}_{pred}
+\end{equation}
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.7\textwidth]{images/yolo.png}
-  \caption{Imagem retirada do artigo de \citeonline{Redmon2015}. Onde é possível ver com clareza o processo de separação da imagem em pequenas células em um grid $S x S$, a plotagem de $B$ {\it bounding boxes} e a detecção final .}
+  \caption{Imagem retirada do artigo de \citeonline{Redmon2015}. Onde é possível ver com clareza o processo de separação da imagem em pequenas células em um grid $S x S$, a plotagem de $B$  bounding boxes, o mapa de $C$ probabilidades de classe e por fim um exemplo de detecção final.}
   \label{fig:yolo}
 \end{figure}
 
