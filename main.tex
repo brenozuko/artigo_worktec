@@ -149,13 +149,13 @@ Durante o momento de testes são multiplicados as classes condicionais e as conf
 
 \FloatBarrier
 
-\section{Métodos}
+\section{Materiais e Métodos}
 
 Para concepção do modelo de detecção, utilizou-se uma seleção de imagens oferecidas por um especialista da área derivadas do banco de imagens TCGA (https://portal.gdc.cancer.gov/projects/TCGA-BRCA), {\it dataset} este que possui informações clínicas e histopatológicas de 1098 pacientes com câncer de mama e suas respectivas imagens histológicas \cite{tiezzi2020}.
 
 Posteriormente, como é requisitado pela documentação oficial do YOLOv5 \cite{glenn_jocher_2022} em sua arquitetura, foram anotados os tumores presentes em cada imagem que participaria do sub-conjunto de treino com a ferramenta {\it LabelImg} \cite{tzutalin2015labelimg} que é capaz de gerar anotações de classes em formato adequado para o treinamento, que serão utilizadas como padrões de referência de verdade absoluta para o modelo.
 
-Para o processo de treinamento foram utilizadas 31 imagens com anotações de tumores malignos, este que se deu em 250 épocas com {\it batch size} de 16 imagens, valores estes arbitrários com embasamento em exemplos da literatura. Devido ao tamanho diminuto do {\it dataset} utilizado para o treinamento, foi-se utilizada a técnica de transferência de aprendizagem a partir do conjunto de pesos pré-treinados YOLOv5s \cite{glenn_jocher_2022} como é recomendado pela própria documentação oficial da arquitetura.
+Para o processo de treinamento foram utilizadas 31 imagens com aproximadamente 18 anotações de tumores malignos em cada. Este se deu em 250 épocas com {\it batch size} de 16 imagens, valores estes arbitrários com embasamento em exemplos da literatura. Devido ao tamanho reduzido do {\it dataset} para o treinamento, foi-se utilizado o modelo pré-treinado YOLOv5s \cite{glenn_jocher_2022} como é recomendado pela própria documentação oficial da arquitetura. Ademais, realizou-se uma rotina testes do modelo em imagens do conjunto de validação com a finalidade de se explorar a eficácia de localização e classificação de forma visual.
 
 
 
