@@ -131,7 +131,7 @@ Segundo \citeonline{Redmon2015} alternativas conhecidas de classificadores como 
 
 Com a proposta de ser um classificador de objetos de alta performance, YOLO propõe uma abordagem diferente das convencionais entregando velocidade e acurácia com custo computacional reduzido, além de uma arquitetura escalável devido a sua simplicidade. O modelo YOLO reformula o problema de detecção de objetos para um problema de regressão, utilizando apenas uma rede neural para criar {\it bounding boxes} e indicar as probabilidades dos objetos estarem presentes nessas imagens \cite{Redmon2015}.
 
-Para tal, o sistema divide a imagem de entrada em um grid $S x S$. Caso o centro da imagem caia em uma determinada célula, esta fica responsável por fazer a detecção daquele objeto, por sua vez esta prevê $B$ caixas delimitadoras e valores de confiança para cada uma delas formalmente definidos por $Pr(Object) * IOU^{truth}_{pred}$. Se não existir objetos na respectiva célula o fator de confiança é determinado como zero, do contrário a confiança de predição é representada pelo IOU ({\it Intersection Over Union}) da {\it bounding box} predita em relação a qualquer caixa delimitadora tomada como verdade absoluta \cite{Redmon2015}.
+Para tal, o sistema divide a imagem de entrada em um grid $S \times S$. Caso o centro da imagem caia em uma determinada célula, esta fica responsável por fazer a detecção daquele objeto, por sua vez esta prevê $B$ caixas delimitadoras e valores de confiança para cada uma delas formalmente definidos por $Pr(Object) * IOU^{truth}_{pred}$. Se não existir objetos na respectiva célula o fator de confiança é determinado como zero, do contrário a confiança de predição é representada pelo IOU ({\it Intersection Over Union}) da {\it bounding box} predita em relação a qualquer caixa delimitadora tomada como verdade absoluta \cite{Redmon2015}.
 
 Ademais, cada {\it bounding box} é composta por 5 valores: $x, y, w, h$ e confiança \cite{Redmon2015}. Onde $x, y$ são as coordenadas do centro da caixa delimitadora, $w, h$ são a largura e altura relativas a imagem completa. Vale ressaltar que são preditas também $C$ potenciais classes condicionais por célula e sua probabilidade é dada por $Pr(Class_i | Object)$ e apenas se prevê um único conjunto probabilidades de classe por célula do grid, independente de quantas {\it bounding boxes} foram demarcadas no processo \cite{Redmon2015}.
 
@@ -155,11 +155,11 @@ Durante o momento de testes são multiplicados as classes condicionais e as conf
 
 Para concepção do modelo de detecção, utilizou-se uma seleção de imagens oferecidas por um especialista da área derivadas do banco de imagens TCGA \footnote{Disponível em: \url{https://portal.gdc.cancer.gov/projects/TCGA-BRCA} Acessado em: 19/08/2022 }, {\it dataset} este que possui informações clínicas e histopatológicas de 1098 pacientes com câncer de mama e suas respectivas imagens histológicas \cite{tiezzi2020}.
 
-Posteriormente, como é requisitado pela documentação oficial do YOLOv5 \cite{glenn_jocher_2022} em sua arquitetura, foram anotados os tumores presentes em cada imagem que participaria do sub-conjunto de treino com as ferramentas {\it LabelImg} \cite{tzutalin2015labelimg} e {\it Label Studio} \cite{labelStudio} que são capazes de gerar anotações de classes em formato adequado para o treinamento, que serão utilizadas como padrões de referência de verdade absoluta para o modelo.
+Posteriormente, foram anotados por um especialista os tumores presentes em cada imagem que participaria do sub-conjunto de treino com as ferramentas {\it LabelImg} \cite{tzutalin2015labelimg} e {\it Label Studio} \cite{labelStudio}, estas são capazes de gerar anotações de classes em formato adequado para o treinamento como solicitado pela documentação oficial do YOLOv5 \cite{glenn_jocher_2022}, que serão utilizadas como padrões de referência de verdade absoluta para o modelo.
 
 Para o processo de treinamento foram utilizadas 57 imagens que totalizam 1224 de objetos da classe tumor anotados. Este se deu em 250 épocas com lotes de 16 imagens, valores estes arbitrários com embasamento em exemplos da literatura. Devido ao tamanho reduzido do {\it dataset} para o treinamento, foi-se utilizado o modelo pré-treinado YOLOv5s \cite{glenn_jocher_2022} como é recomendado pela própria documentação oficial da arquitetura. Ao completar-se o processo, é gerado o novo modelo com pesos atualizados que pode ser utilizado para a detecção de tumores malignos.
 
-Ademais, realizou-se a execução do script de validação em lotes de 64 imagens no subconjunto destinado a essa finalidade, para se obter as métricas que compõem a performance do sistema. Por fim, foram executados alguns testes para verificar a eficácia de anotação do modelo de forma visual em imagens selecionadas arbitariamente. Todo o fluxo pode ser observado na Figura \ref{fig:methods}.
+Ademais, realizou-se a execução do script de validação em 14 imagens do subconjunto destinado para essa finalidade, para se obter as métricas que compõem a performance do sistema. Por fim, foram executados alguns testes para verificar a eficácia de anotação do modelo de forma visual em imagens selecionadas arbitariamente. Todo o fluxo pode ser observado na Figura \ref{fig:methods}.
 
 \begin{figure}[ht]
   \centering
@@ -170,7 +170,7 @@ Ademais, realizou-se a execução do script de validação em lotes de 64 imagen
 
 \section{Resultados}
 
-Após a avaliação de resultados gerados conseguimos obter a partir da matriz de confusão a acurácia de $81\%$. Como indicado na Figura \ref{fig:graph}. A precisão alcança o pico de 1.00 Ao se observar o balanço entre os gráficos de {\it precision} e {\it recall} entende-se as detecções relevantes estão até o nível de confiança de $0.7$, a partir daí o {\it recall} decai de forma expressiva indicando que o modelo já não mais apresenta assertividade em suas detecções.
+Após a avaliação de resultados gerados conseguimos obter a partir da matriz de confusão a acurácia de $81\%$. Como indicado na Figura \ref{fig:graph}, a precisão do modelo alcança o pico de 1.00 Ao se observar o balanço entre os gráficos de {\it precision} e {\it recall} entende-se as detecções relevantes estão até o nível de confiança de $0.7$, a partir daí o {\it recall} decai de forma expressiva indicando que o modelo já não mais apresenta assertividade em suas detecções.
 
 
 
