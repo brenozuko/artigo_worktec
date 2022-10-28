@@ -22,6 +22,8 @@
 \usepackage[brazil]{babel}   
 \usepackage[utf8]{inputenc}  
 
+\usepackage{hyperref}
+
 
 %Inclui () nas citações
 \usepackage[alf]{abntex2cite}
@@ -67,9 +69,9 @@ O câncer de mama é a mais recorrente neoplasia maligna em mulheres ao redor do
 Segundo \citeonline{tiezzi2020}, uma série de fatores podem ser descritos como métodos de predição de prognóstico, sendo atualmente utilizados no contexto clínico para determinação de tratamento, em especial para utilização de drogas antineoplásicas. Dentre eles destacam-se critérios clínicos, histológicos e utilização de marcadores tumorais. Abordando o critério histológico, temos o grau de diferenciação tumoral, baseado no sistema de escore de Nottingham (NGS), que, apesar de ser considerado um potente método de predição, recebe críticas em relação à sua baixa reprodutibilidade, provavelmente devido ao seu caráter subjetivo e processamento pré-analítico da amostra. Dessa forma, gera ampla discordância entre histologistas que o aplicam, o que impacta diretamente no prognóstico do paciente e na decisão clínica de administrar ou não a quimioterapia sistêmica \cite{tiezzi2020}.
 Alternativas de métodos com biologia molecular vêm sendo propostas para inferir com maior acurácia o estágio de agressividade da doença de forma a evitar desvios de diagnóstico. Entretanto, essas são técnicas de alto custo, inviáveis em muitas situações, principalmente em países subdesenvolvidos.
 
-Atualmente, as técnicas de aprendizado de máquina vêm ganhando espaço em diversas áreas e aplicações. Na medicina, já são importantes métodos de auxílio ao diagnóstico de imagens radiológicas \cite{hu2018}. Diversos modelos computacionais têm sido desenvolvidos nos últimos anos utilizando a metodologia deep learning para concretizar sistemas de apoio ao diagnóstico. Grupos de pesquisa ao redor do mundo têm desenvolvido soluções de aprendizado de máquina utilizando técnicas diversas de deep learning, que, apesar de rápidas e geralmente acuradas, apenas oferecem mapas de calor e pontos de atenção, informações insuficientes para interpretação concreta e justificação do diagnóstico oferecido pela máquina, o que não é adequado para sistemas de apoio à decisão médica \cite{li2021}.
+Atualmente, as técnicas de aprendizado de máquina vêm ganhando espaço em diversas áreas e aplicações. Na medicina, já são importantes métodos de auxílio ao diagnóstico de imagens radiológicas \cite{hu2018}. Diversos modelos computacionais têm sido desenvolvidos nos últimos anos utilizando aprendizagem profunda para concretizar sistemas de apoio ao diagnóstico. Grupos de pesquisa ao redor do mundo têm desenvolvido soluções de aprendizado de máquina utilizando técnicas diversas de {\it Deep Learning}, que, apesar de rápidas e geralmente acuradas, apenas oferecem mapas de calor e pontos de atenção, informações insuficientes para interpretação concreta e justificativa do diagnóstico oferecido pela máquina, o que não é adequado para sistemas de apoio à decisão médica \cite{li2021}.
 
-Vê-se, portanto, nas CNNs (do inglês, Convolutional Neural Network) uma solução viável para análise de recortes específicos de tecido com a quantidade de informação e assertividade adequadas para auxílio ao diagnóstico médico. Pois a partir delas é possível segmentar e classificar regiões de interesse com as informações necessárias para evidenciar a presença de tumores malignos com eficiência.
+Vê-se, portanto, nas CNNs (do inglês, Convolutional Neural Network) de classificação de objetos em imagens, uma solução viável para análise de recortes específicos de tecido com a quantidade de informação e assertividade adequadas para auxílio ao diagnóstico médico. Pois a partir delas é possível segmentar e classificar regiões de interesse com as informações necessárias para evidenciar a presença de tumores malignos com eficiência.
 
 O presente artigo propõe um modelo  de aprendizagem profunda para a segmentação de áreas de interesse e posterior classificação de imagens histológicas visando apoiar o diagnóstico de câncer de mama.
 
@@ -77,7 +79,7 @@ O presente artigo propõe um modelo  de aprendizagem profunda para a segmentaç�
 \section{Revisão bibliográfica}
 
 \subsection{Introdução}
-Para justificar sua utilização é primeiro importante entender os conceitos que embasam as CNN's (do inglês, {\it Convolutional Neural Networks}), algoritmos de aprendizagem profunda especializados em processamento e classificação de imagens. Segundo \cite{Goodfellow-et-al-2016} redes neurais convolucionais são um tipo especializado de rede neural para processamento de dados organizados topologicamente em grades, que através de operações matemáticas chamadas convoluções, são capazes de extrair características principais das entradas utilizando filtros (kernels), garantindo eficiência e redução de custos computacionais para a classificação.
+Para justificar sua utilização é primeiro importante entender os conceitos que embasam as CNN's, técnicas estas utilizadas como base para  a realização da detecção e classificação de objetos. Portanto entendemos como CNN: algoritmos de aprendizagem profunda especializados em processamento e classificação de imagens. Segundo \cite{Goodfellow-et-al-2016} redes neurais convolucionais são um tipo especializado de rede neural para processamento de dados organizados topologicamente em grades, que através de operações matemáticas chamadas convoluções, são capazes de extrair características principais das entradas utilizando filtros (kernels), garantindo eficiência e redução de custos computacionais para a classificação.
 
 Diferentemente de outros tipos de dados, imagens possuem a propriedade de {\it invariância de tradução} \cite{Aggarwal18}, ou seja, transmitem a mesma informação sobre o objeto independentemente das variações do contexto. No entanto, existem características espaciais, de luz, sombra, perspectiva, cenário, entre outras variáveis, que alteram significantemente a matriz de pixels que constituem a imagem do objeto de estudo. Enquanto para um ser humano distinguir um objeto qualquer no espaço independente da posição, incidência de luz ou cenário em que este se encontra seja uma tarefa trivial, para um computador esta tem um custo elevado de execução. Sendo assim, é necessário que se utilize de técnicas que permitam a extração de características mais objetivas e com dados relevantes para a análise, evitando imprecisões que não contribuem para a classificação do objeto desejado.
 
@@ -151,7 +153,7 @@ Durante o momento de testes são multiplicados as classes condicionais e as conf
 
 \section{Materiais e Métodos}
 
-Para concepção do modelo de detecção, utilizou-se uma seleção de imagens oferecidas por um especialista da área derivadas do banco de imagens TCGA (https://portal.gdc.cancer.gov/projects/TCGA-BRCA), {\it dataset} este que possui informações clínicas e histopatológicas de 1098 pacientes com câncer de mama e suas respectivas imagens histológicas \cite{tiezzi2020}.
+Para concepção do modelo de detecção, utilizou-se uma seleção de imagens oferecidas por um especialista da área derivadas do banco de imagens TCGA \footnote{Disponível em: \url{https://portal.gdc.cancer.gov/projects/TCGA-BRCA} Acessado em: 19/08/2022 }, {\it dataset} este que possui informações clínicas e histopatológicas de 1098 pacientes com câncer de mama e suas respectivas imagens histológicas \cite{tiezzi2020}.
 
 Posteriormente, como é requisitado pela documentação oficial do YOLOv5 \cite{glenn_jocher_2022} em sua arquitetura, foram anotados os tumores presentes em cada imagem que participaria do sub-conjunto de treino com as ferramentas {\it LabelImg} \cite{tzutalin2015labelimg} e {\it Label Studio} \cite{labelStudio} que são capazes de gerar anotações de classes em formato adequado para o treinamento, que serão utilizadas como padrões de referência de verdade absoluta para o modelo.
 
@@ -168,7 +170,7 @@ Ademais, realizou-se a execução do script de validação em lotes de 64 imagen
 
 \section{Resultados}
 
-Após a avaliação de resultados gerados conseguimos obter a partir da matriz de confusão a acurácia de $81\%$, o que é bastante satisfatório. Não obstante, é preciso levar em consideração algumas outras métricas para a compreensão completa da performance do modelo. Ao se observar o balanço entre os gráficos de {\it precision} e {\it recall} entende-se as detecções relevantes estão até o nível de confiança de $0.7$, a partir daí o {\it recall} decai de forma expressiva indicando que o modelo já não mais apresenta assertividade em suas detecções.
+Após a avaliação de resultados gerados conseguimos obter a partir da matriz de confusão a acurácia de $81\%$. Como indicado na Figura \ref{fig:graph}. A precisão alcança o pico de 1.00 Ao se observar o balanço entre os gráficos de {\it precision} e {\it recall} entende-se as detecções relevantes estão até o nível de confiança de $0.7$, a partir daí o {\it recall} decai de forma expressiva indicando que o modelo já não mais apresenta assertividade em suas detecções.
 
 
 
@@ -177,7 +179,7 @@ Após a avaliação de resultados gerados conseguimos obter a partir da matriz d
   \centering
   \includegraphics[width=1\textwidth]{images/graph_results.png}
   \caption{Gráficos de performances do modelo contendo respectivamente os gráficos relativos F1-Confiança, Precision-Recall, Precision-Confiança e Recall-Confiança.}
-  \label{fig:methods}
+  \label{fig:graph}
 \end{figure}
 
 \FloatBarrier
