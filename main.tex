@@ -50,30 +50,30 @@
 \begin{abstract}
   Diagnosing breast cancer can be challenging and laborious even for well-trained professionals.
   Inexperienced physicians and disagreement among histopathologists are primary causes of misdiagnosis
-  that compromise patient care. With decision support computer systems using deep learning, it is possible to guarantee better results for this process. This article demonstrates the use
-  of a deep learning model that uses YOLOv5 to validate the effectiveness of state-of-the-art computer vision methods for detecting malignant tumors in medical images.
+  that compromise patient care. With decision support computer systems using Deep Learning, it is possible to guarantee better results for this process. This article demonstrates the use
+  of a Deep Learning model that uses YOLOv5 to validate the effectiveness of state-of-the-art computer vision methods for detecting malignant tumors in medical images.
 \end{abstract}
 
 \begin{resumo}
   O diagnóstico de câncer de mama pode ser desafiador e laborioso mesmo para profissionais bem treinados.
   Médicos inexperientes e discordância entre histopatologistas são causadores primários de diagnósticos errôneos
-  que comprometem o tratamento de pacientes. Com sistemas computacionais de apoio a decisão utilizando deep learning, é possível garantir melhores resultados para este processo. Este artigo demonstra a utilização
+  que comprometem o tratamento de pacientes. Com sistemas computacionais de apoio a decisão utilizando classificação de objetos, é possível garantir melhores resultados para este processo. Este artigo demonstra a utilização
   de um modelo de aprendizagem profunda que utiliza YOLOv5 para validar a eficácia de métodos de visão computacional de estado da arte para detecção tumores malignos em imagens médicas.
 \end{resumo}
 
 
 \section{Introdução}
 
-O câncer de mama é a mais recorrente neoplasia maligna em mulheres ao redor do mundo. Apenas em 2020 foram realizados 2,3 milhões de diagnósticos e 685.000 mortes foram registradas \cite{who2021}. No Brasil, o cenário é similar: no mesmo ano a ordem de incidência estava prevista para cerca de 600.000 casos \cite{inca2018}. A análise de imagens histológicas está entre os mais utilizados métodos de diagnóstico da atualidade. Porém, existem deficiências associadas ao método provenientes do trabalho humano desenvolvido para realizá-lo. Falhas estas, que podem levar a diagnósticos errados e agravamento do quadro de saúde do paciente em decorrência da falta de tratamento imediato. Mesmo quando bem sucedidos, a análise humana demanda uma grande carga de esforço e tempo que poderiam ser mitigados com auxílio de visão computacional e deep learning.
+O câncer de mama é a mais recorrente neoplasia maligna em mulheres ao redor do mundo. Apenas em 2020 foram realizados 2,3 milhões de diagnósticos e 685.000 mortes foram registradas \cite{who2021}. No Brasil, o cenário é similar: no mesmo ano a ordem de incidência estava prevista para cerca de 600.000 casos \cite{inca2018}. A análise de imagens histológicas está entre os mais utilizados métodos de diagnóstico da atualidade. Porém, existem deficiências associadas ao método provenientes do trabalho humano desenvolvido para realizá-lo. Falhas estas, que podem levar a diagnósticos errados e agravamento do quadro de saúde do paciente em decorrência da falta de tratamento imediato. Mesmo quando bem sucedidos, a análise humana demanda uma grande carga de esforço e tempo que poderiam ser mitigados com auxílio de visão computacional e Deep Learning.
 
 Segundo \citeonline{tiezzi2020}, uma série de fatores podem ser descritos como métodos de predição de prognóstico, sendo atualmente utilizados no contexto clínico para determinação de tratamento, em especial para utilização de drogas antineoplásicas. Dentre eles destacam-se critérios clínicos, histológicos e utilização de marcadores tumorais. Abordando o critério histológico, temos o grau de diferenciação tumoral, baseado no sistema de escore de Nottingham (NGS), que, apesar de ser considerado um potente método de predição, recebe críticas em relação à sua baixa reprodutibilidade, provavelmente devido ao seu caráter subjetivo e processamento pré-analítico da amostra. Dessa forma, gera ampla discordância entre histologistas que o aplicam, o que impacta diretamente no prognóstico do paciente e na decisão clínica de administrar ou não a quimioterapia sistêmica \cite{tiezzi2020}.
 Alternativas de métodos com biologia molecular vêm sendo propostas para inferir com maior acurácia o estágio de agressividade da doença de forma a evitar desvios de diagnóstico. Entretanto, essas são técnicas de alto custo, inviáveis em muitas situações, principalmente em países subdesenvolvidos.
 
 Atualmente, as técnicas de aprendizado de máquina vêm ganhando espaço em diversas áreas e aplicações. Na medicina, já são importantes métodos de auxílio ao diagnóstico de imagens radiológicas \cite{hu2018}. Diversos modelos computacionais têm sido desenvolvidos nos últimos anos utilizando aprendizagem profunda para concretizar sistemas de apoio ao diagnóstico. Grupos de pesquisa ao redor do mundo têm desenvolvido soluções de aprendizado de máquina utilizando técnicas diversas de {\it Deep Learning}, que, apesar de rápidas e geralmente acuradas, apenas oferecem mapas de calor e pontos de atenção, informações insuficientes para interpretação concreta e justificativa do diagnóstico oferecido pela máquina, o que não é adequado para sistemas de apoio à decisão médica \cite{li2021}.
 
-Vê-se, portanto, nas CNNs (do inglês, Convolutional Neural Network) de classificação de objetos em imagens, uma solução viável para análise de recortes específicos de tecido com a quantidade de informação e assertividade adequadas para auxílio ao diagnóstico médico. Pois a partir delas é possível segmentar e classificar regiões de interesse com as informações necessárias para evidenciar a presença de tumores malignos com eficiência.
+Vê-se, portanto, nas CNNs (do inglês, Convolutional Neural Network) de classificação de objetos em imagens, uma solução viável para análise de recortes específicos de tecido com a quantidade de informação e assertividade adequadas para auxílio ao diagnóstico médico. Pois a partir delas é possível segmentar e classificar regiões de interesse que evidenciam a presença de tumores malignos com eficiência.
 
-O presente artigo propõe um modelo  de aprendizagem profunda para a segmentação de áreas de interesse e posterior classificação de imagens histológicas visando apoiar o diagnóstico de câncer de mama.
+O presente artigo propõe a utilização de um modelo de aprendizagem profunda para a segmentação de áreas de interesse e posterior classificação de imagens histológicas, dessa forma verificando a viabilidade de apoiar o diagnóstico de câncer de mama com este tipo de ténica.
 
 
 \section{Revisão bibliográfica}
@@ -178,7 +178,7 @@ Após a avaliação de resultados gerados conseguimos obter a acurácia de $81\%
 Ao se observar o balanço entre os gráficos de {\it precision} e {\it recall} entende-se que as detecções são mais abundantes até o nível de confiança $0.7$, a partir daí o {\it recall} decai de forma expressiva indicando que o modelo já não mais acerta muito mais verdadeiros positivos. Esse entendimento pode ser validado observando o gráfico de {\it F1-score} que indica o balanço da média harmônica de {\it precision-recall} e atinge seu platô na confiança $0.72$, posteriormente se aproxima do zero após a confiança de $0.8$.
 
 
-Como visto na Figura \ref{fig:confidence_threshold}
+Como visto na Figura \ref{fig:confidence_threshold} o número de detecções se aproxima do {\it ground truth} no limiar de confiança $0.7$, abaixo disso a quantidade de detecções supera o número de tumores anotados, simultaneamente a partir de $0.8$ este mesmo número se torna risível. O que nos permite compreender que existe relevância.
 
 % mAP
 
