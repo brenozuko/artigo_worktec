@@ -155,9 +155,9 @@ Durante o momento de testes são multiplicados as classes condicionais e as conf
 
 Para concepção do modelo de detecção, utilizou-se uma seleção de imagens oferecidas por um especialista da área derivadas do banco de imagens TCGA \footnote{Disponível em: \url{https://portal.gdc.cancer.gov/projects/TCGA-BRCA} Acessado em: 19/08/2022 }, {\it dataset} este que possui informações clínicas e histopatológicas de 1098 pacientes com câncer de mama e suas respectivas imagens histológicas \cite{tiezzi2020}.
 
-Posteriormente, foram anotados por um especialista os tumores presentes em cada imagem que participaria do sub-conjunto de treino com as ferramentas {\it LabelImg} \cite{tzutalin2015labelimg} e {\it Label Studio} \cite{labelStudio}, estas são capazes de gerar anotações de classes em formato adequado para o treinamento como solicitado pela documentação oficial do YOLOv5 \cite{glenn_jocher_2022}, que serão utilizadas como padrões de referência de verdade absoluta para o modelo.
+Posteriormente, foram anotados por um especialista os tumores presentes em cada imagem que participaria do sub-conjunto de treino com as ferramentas {\it LabelImg} \cite{tzutalin2015labelimg} e {\it Label Studio} \cite{labelStudio}, estas são capazes de gerar anotações de classes em formato adequado para o treinamento como solicitado pela documentação oficial do YOLOv5 \cite{glenn_jocher_2022}, que serão utilizadas como padrões de referência de verdade absoluta para o modelo. Vale ressaltar que a classe {\it tumor} é a única classe atribuída para os objetos relevantes nas imagens, não havendo distinção entre diferentes tipos de tumores malignos.
 
-Para o processo de treinamento foram utilizadas 57 imagens que totalizam 1224 de objetos da classe tumor anotados. Este se deu em 250 épocas com lotes de 16 imagens, valores estes arbitrários com embasamento em exemplos da literatura. Devido ao tamanho reduzido do {\it dataset} para o treinamento, foi-se utilizado o modelo pré-treinado YOLOv5s \cite{glenn_jocher_2022} como é recomendado pela própria documentação oficial da arquitetura. Ao completar-se o processo, é gerado o novo modelo com pesos atualizados que pode ser utilizado para a detecção de tumores malignos.
+Para o processo de treinamento foram utilizadas 57 imagens que totalizam 1224 de objetos anotados. Este se deu em 250 épocas com lotes de 16 imagens, valores estes arbitrários com embasamento em exemplos da literatura. Devido ao tamanho reduzido do {\it dataset} para o treinamento, foi-se utilizado o modelo pré-treinado YOLOv5s \cite{glenn_jocher_2022} como é recomendado pela própria documentação oficial da arquitetura. Ao completar-se o processo, é gerado o novo modelo com pesos atualizados que pode ser utilizado para a detecção de tumores malignos.
 
 Ademais, realizou-se a execução do script de validação em 14 imagens do subconjunto destinado para essa finalidade, para se obter as métricas que compõem a performance do sistema. Por fim, foram executados alguns testes para verificar a eficácia de anotação do modelo de forma visual em imagens selecionadas arbitariamente. Todo o fluxo pode ser observado na Figura \ref{fig:methods}.
 
@@ -189,8 +189,8 @@ Como visto na Figura \ref{fig:confidence_threshold} o número de detecções se 
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=0.6\textwidth]{images/confidence_threshold.png}
-  \caption{Anotações do especialista em (1) e as anotações subsequentes (2, 3, 4, 5, 6) realizadas pelo modelo com diferentes limiares de confiança para a detecção}
+  \includegraphics[width=0.7\textwidth]{images/confidence_threshold.png}
+  \caption{Anotações do especialista em (1) e nas imagems subsequentes as detecções realizadas pelo modelo com diferentes limiares de confiança para a detecção}
   \label{fig:confidence_threshold}
 \end{figure}
 
