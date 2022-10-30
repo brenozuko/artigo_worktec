@@ -161,7 +161,7 @@ Para o processo de treinamento foram utilizadas 57 imagens que totalizam 1224 de
 
 Ademais, realizou-se a execução do script de validação em 14 imagens do subconjunto destinado para essa finalidade, para se obter as métricas que compõem a performance do sistema. Por fim, foram executados alguns testes para verificar a eficácia de anotação do modelo de forma visual em imagens selecionadas arbitariamente. Todo o fluxo pode ser observado na Figura \ref{fig:methods}.
 
-Por fim, para a avaliação dos resultados foram utilizadas as métricas de {\it precision}, {\it recall}, {\it F1-score} e {\it mAP} que serão visualizadas a partir de gráficos e relatórios gerados automaticamente pelo modelo no processo de treinamento e validação.
+Por fim, para a avaliação dos resultados foram utilizadas as métricas de {\it precision}, {\it recall}, {\it F1-score} e {\it mean average precision (mAP)} que serão visualizadas a partir de gráficos e relatórios gerados automaticamente pelo modelo no processo de treinamento e validação.
 
 
 \begin{figure}[ht]
@@ -173,27 +173,23 @@ Por fim, para a avaliação dos resultados foram utilizadas as métricas de {\it
 
 \section{Resultados}
 
-Após a avaliação de resultados gerados conseguimos obter a acurácia de $81\%$. Como indicado na Figura \ref{fig:graph}, a precisão do modelo alcança o pico de 1.00 quando a confiança está em 0.882. Concomitamentemente, o {\it recall} atinge seu valor mínimo de 0 quando o valor de confiança está em 0.96.
+Após a avaliação de resultados gerados conseguimos obter a acurácia de $81\%$. Como indicado na Figura \ref{fig:graph}, a precisão do modelo alcança o pico de 1.00 quando a confiança está em 0.882. Concomitamentemente, o {\it recall} atinge seu valor mínimo de 0 quando o valor de confiança está em 0.96. Em relação ao mAP obtivemos os seguintes: mAP@0.5 com o valor $0.74$ e mAP@0.5:0.95 em $0.383$.
 
 Ao se observar o balanço entre os gráficos de {\it precision} e {\it recall} entende-se que as detecções são mais abundantes até o nível de confiança $0.7$, a partir daí o {\it recall} decai de forma expressiva indicando que o modelo já não mais acerta muito mais verdadeiros positivos. Esse entendimento pode ser validado observando o gráfico de {\it F1-score} que indica o balanço da média harmônica de {\it precision-recall} e atinge seu platô na confiança $0.72$, posteriormente se aproxima do zero após a confiança de $0.8$.
 
 
-Como visto na Figura \ref{fig:confidence_threshold} o número de detecções se aproxima do {\it ground truth} no limiar de confiança $0.7$, abaixo disso a quantidade de detecções supera o número de tumores anotados, simultaneamente a partir de $0.8$ este mesmo número se torna risível. O que nos permite inferir que apesar de não substituir o laudo de um patologista, existe viabilidade de papel de apoio do modelo para diagnósticos médicos, pois as performances comparadas entre humano e máquina são similares apesar de não idênticas.
-
-% mAP
-
-
+Como visto na Figura \ref{fig:confidence_threshold} o número de detecções se aproxima do {\it ground truth} no limiar de confiança $0.7$, abaixo disso a quantidade de detecções supera o número de tumores anotados. Entretanto, a partir de $0.8$ detecções são realizadas chegando a zero em $0.9$. O que nos permite inferir que apesar de não substituir o laudo de um patologista, existe viabilidade de papel de apoio do modelo para diagnósticos médicos, pois as quantidades de detecções corretas comparadas entre humano e máquina são de acurácia similares, se consideradas confianças inferiores a $80\%$.
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=0.8\textwidth]{images/graph_results.png}
+  \includegraphics[width=0.7\textwidth]{images/graph_results.png}
   \caption{Gráficos de performances do modelo contendo respectivamente os gráficos relativos F1-Confiança, Precision-Recall, Precision-Confiança e Recall-Confiança.}
   \label{fig:graph}
 \end{figure}
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=0.8\textwidth]{images/confidence_threshold.png}
+  \includegraphics[width=0.6\textwidth]{images/confidence_threshold.png}
   \caption{Anotações do especialista em (1) e as anotações subsequentes (2, 3, 4, 5, 6) realizadas pelo modelo com diferentes limiares de confiança para a detecção}
   \label{fig:confidence_threshold}
 \end{figure}
