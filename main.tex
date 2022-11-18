@@ -36,20 +36,23 @@
 
 \title{Classificação de células tumorais em imagens\\ histopatológicas utilizando Deep Learning}
 
-\author{Breno C. Zukowski\inst{1}, Lucas B. Figueira\inst{1}}
+
+\author{}
 
 
-\address{Faculdade de Tecnologia de Ribeirão Preto - (FATEC)\\
-  Ribeirão Preto, SP -- Brasil
-  \email{breno.marques@fatec.sp.gov.br, lucas.figueira@fatec.sp.gov.br}}
+\address{}
+
+
+% \author{Breno C. Zukowski\inst{1}, Lucas B. Figueira\inst{1}}
+
+
+% \address{Faculdade de Tecnologia de Ribeirão Preto - (FATEC)\\
+%   Ribeirão Preto, SP -- Brasil
+%   \email{breno.marques@fatec.sp.gov.br, lucas.figueira@fatec.sp.gov.br}}
 
 \begin{document}
 
 \maketitle
-
-\begin{abstract}
-  Breast Cancer diagnosis can be challenging even for well-trained doctors. Misleadings diagnosis inferred by doctors in training, and disagreement among histopathologists reports make harder to proceed an efficient patient care. With CAD (Computer Aided Diagnosis) it is possible to achive satisfactory results for physicians. This paper shows the use of a deep learning model that uses YOLOv5 to validate the effectiveness of state-of-the-art computer vision methods for detecting malignant tumors in medical images.
-\end{abstract}
 
 \begin{resumo}
   O diagnóstico de câncer de mama pode ser desafiador e laborioso mesmo para profissionais bem treinados.
@@ -57,6 +60,11 @@
   que comprometem o tratamento de pacientes. Com sistemas computacionais de apoio a decisão que realizam classificação de objetos, é possível garantir melhores resultados para este processo. Este artigo demonstra a utilização
   de um modelo de aprendizagem profunda que utiliza YOLOv5 para validar a eficácia de métodos de visão computacional de estado da arte para detecção tumores malignos em imagens médicas.
 \end{resumo}
+
+
+\begin{abstract}
+  Breast Cancer diagnosis can be challenging even for well-trained doctors. Misleadings diagnosis inferred by doctors in training, and disagreement among histopathologists reports make harder to proceed an efficient patient care. With CAD (Computer Aided Diagnosis) it is possible to achive satisfactory results for physicians. This paper shows the use of a deep learning model that uses YOLOv5 to validate the effectiveness of state-of-the-art computer vision methods for detecting malignant tumors in medical images.
+\end{abstract}
 
 
 \section{Introdução}
@@ -87,7 +95,7 @@ Em geral, uma CNN apenas difere de uma rede neural densa totalmente conectada po
 \begin{figure}[ht]
   \centering
   \includegraphics[width=1\textwidth]{images/CNN.jpeg}
-  \caption{O fluxo básico de uma CNN e suas diversas camadas. Fonte: Introduction to Convolutional Neural Networks (CNN). Disponível em: https://www.analyticsvidhya.com/blog/2021/05/convolutional-neural-networks-cnn/}
+  \caption{O fluxo básico de uma CNN e suas diversas camadas. \cite{mandal2021}}
   \label{fig:cnn}
 \end{figure}
 
@@ -101,7 +109,7 @@ correlação cruzada ({\it cross-correlation}), que é em suma a mesma operaçã
 $$ S(i,j) = (I * K) (i,j) = \sum_m \sum_n I(i + m, j + n) K(m, n)  $$
 
 
-Em termos gerais, basta que multiplique-se os valores das posições equivalentes do kernel nas coordenadas da imagem analisada, posteriormente soma-se todos os resultados para que se obtenha um valor único na posição definida $(i,j)$ do {\it feature map}. É possível visualizar este processo com clareza na Figura \ref{fig:convolution}.
+Em termos gerais, basta que multiplique-se os valores das posições equivalentes do kernel nas coordenadas da imagem analisada, posteriormente soma-se todos os resultados para que se obtenha um valor único na posição definida $(i,j)$ do {\it feature map}. É possível visualizar este processo com clareza na Figura \ref{fig:convolution} que demonstra didaticamente a saída gerada ao se realizar o processo de convolução de uma imagem a partir de um kernel.
 
 O kernel é constituído por parâmetros que filtram certas características desejadas do {\it input}, uma rede neural convolucional pode apresentar diversas camadas de convolução para extração de características diferentes. As primeiras camadas em geral extraem características mais gerais, como bordas e contornos, enquanto as camadas posteriores extraem características mais específicas e abstratas.
 
@@ -109,7 +117,7 @@ O kernel é constituído por parâmetros que filtram certas características des
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.8\textwidth]{images/convolution.png}
-  \caption{O processo de convolução sem rotação explicado graficamente. Imagem retirada do livro {\it Deep Learning} \cite{Goodfellow-et-al-2016}. Onde é possível perceber que o output é restringido apenas as posições compreendidas dentro da imagem por todos os parâmetros do kernel. São desenhadas caixas para indicar as saídas referentes a multiplicação e somatório das posições equivalentes do kernel à imagem.}
+  \caption{O processo de convolução sem rotação explicado graficamente. Imagem retirada do livro {\it Deep Learning} \cite{Goodfellow-et-al-2016}.}
   \label{fig:convolution}
 \end{figure}
 
@@ -132,7 +140,7 @@ Para tal, o sistema divide a imagem de entrada em um grid $S \times S$. Caso o c
 
 Ademais, cada {\it bounding box} é composta por 5 valores: $x, y, w, h$ e confiança \cite{Redmon2015}. Onde $x, y$ são as coordenadas do centro da caixa delimitadora, $w, h$ são a largura e altura relativas a imagem completa. Vale ressaltar que são preditas também $C$ potenciais classes condicionais por célula e sua probabilidade é dada por $Pr(Class_i | Object)$ e apenas se prevê um único conjunto probabilidades de classe por célula do grid, independente de quantas {\it bounding boxes} foram demarcadas no processo \cite{Redmon2015}.
 
-Durante o momento de testes são multiplicados as classes condicionais e as confianças individuais de cada caixa predita como visto em (\ref{testing_expression}) o que dá os fatores de confiança específicos de cada {\it bounding box} e por sua vez o fluxo pode ser compreendido na totalidade a partir da Figura \ref{fig:yolo}.
+Durante o momento de testes são multiplicados as classes condicionais e as confianças individuais de cada caixa predita como visto em (\ref{testing_expression}) o que dá os fatores de confiança específicos de cada {\it bounding box} e por sua vez o fluxo pode ser compreendido na totalidade a partir da Figura \ref{fig:yolo} que nos possibilita ver com clareza o processo de separação da imagem em pequenas células em um grid $S x S$, a plotagem de $B$  bounding boxes, o mapa de $C$ probabilidades de classe e por fim um exemplo de detecção final.
 
 \begin{equation}
   \label{testing_expression}
@@ -142,7 +150,7 @@ Durante o momento de testes são multiplicados as classes condicionais e as conf
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.7\textwidth]{images/yolo.png}
-  \caption{Imagem retirada do artigo de \citeonline{Redmon2015}. Onde é possível ver com clareza o processo de separação da imagem em pequenas células em um grid $S x S$, a plotagem de $B$  bounding boxes, o mapa de $C$ probabilidades de classe e por fim um exemplo de detecção final.}
+  \caption{Representação visual do pipeline do YOLO \citeonline{Redmon2015}.}
   \label{fig:yolo}
 \end{figure}
 
@@ -164,7 +172,7 @@ Por fim, para a avaliação dos resultados foram utilizadas as métricas de {\it
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.9\textwidth]{images/methods.png}
-  \caption{Fluxo do processo de treinamento e validação do modelo.}
+  \caption{Fluxo do processo de treinamento e validação do modelo. (Elaborada pelo autor, 2022)}
   \label{fig:methods}
 \end{figure}
 
@@ -180,14 +188,14 @@ Como visto na Figura \ref{fig:confidence_threshold} o número de detecções se 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=1\textwidth]{images/graph_results.png}
-  \caption{Gráficos de performances do modelo contendo respectivamente os gráficos relativos F1-Confiança, Precision-Recall, Precision-Confiança e Recall-Confiança.}
+  \caption{Gráficos de performances do modelo contendo respectivamente os gráficos relativos F1-Confiança, Precision-Recall, Precision-Confiança e Recall-Confiança. (Elaborada pelo autor, 2022)}
   \label{fig:graph}
 \end{figure}
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=1\textwidth]{images/confidence_threshold.png}
-  \caption{Anotações do especialista em (1) e nas imagems subsequentes as detecções realizadas pelo modelo com diferentes limiares de confiança para a detecção}
+  \caption{Anotações do especialista em (1) e nas imagems subsequentes as detecções realizadas pelo modelo com diferentes limiares de confiança para a detecção.  (Elaborada pelo autor, 2022)}
   \label{fig:confidence_threshold}
 \end{figure}
 
